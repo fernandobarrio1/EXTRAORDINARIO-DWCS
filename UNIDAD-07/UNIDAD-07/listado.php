@@ -82,6 +82,21 @@ if (isset($_POST['comprar'])) {
                     echo "</th>";
                     echo "<td>{$filas->nombre}, Precio: {$filas->pvp} (€) ";
                     /* Añadido el if para comprobar sia hay ventas o no pata mostrarlo en textarea*/
+
+                    $ConsultaVentas = "select * from Ventas as v
+                    JOIN empleados as e
+                    on e.id=v.id_empleado
+                    JOIN clientes AS c
+                    on c.id=v.id_cliente
+                    where v.id_producto=3";
+                    $stmt = $conProyecto->prepare($ConsultaVentas);
+                    try {
+                        $stmt->execute();
+                    } catch (PDOException $ex) {
+                        cerrarTodo($conProyecto, $stmt);
+                        die("Error al recuperar las ventas " . $ex->getMessage());
+                    }
+
                     $controlventas = 0; // variable control de ventas
                     if ($controlventas >= 1) {
                         echo "<textarea>Empleado: Cliente: {$_SESSION['nombre']} Id producto :{$filas->id} </textarea>";
