@@ -79,7 +79,10 @@ if (isset($_POST['comprar'])) {
             echo "<input type='submit' class='btn btn-primary' name='comprar' value='Añadir'>";
             echo "</form>";
             echo "</th>";
-            echo "<td>{$filas->nombre}, Precio: {$filas->pvp} (€)</td>";
+            echo "<td>{$filas->nombre}, Precio: {$filas->pvp} (€) ";
+            $controlventas=0;
+            if($controlventas>=1){echo"<textarea>Empleado: Cliente: {$_SESSION['nombre' ] } Id producto :{$filas->id} </textarea>";}else{echo" - Sin ventas";}
+            echo"</td>";
             echo "<td class='text-center'>";
             if (isset($_SESSION['cesta'][$filas->id])) {
                 echo "<i class='fas fa-check fa-2x'></i>";
