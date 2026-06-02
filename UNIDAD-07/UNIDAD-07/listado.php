@@ -102,7 +102,7 @@ if (isset($_POST['comprar'])) {
                    
 
                     
-                       
+                       // falta implementar consulta y mostrar datos json por ajax
                     if( empty($controlventas)) {
                         echo " - Sin ventas";
                     }else {echo "<textarea>Empleado: Cliente: {$_SESSION['nombre']} Id producto :{$filas->id} </textarea>";}
