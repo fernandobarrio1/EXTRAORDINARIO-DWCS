@@ -88,21 +88,24 @@ if (isset($_POST['comprar'])) {
                     on e.id=v.id_empleado
                     JOIN clientes AS c
                     on c.id=v.id_cliente
-                    where v.id_producto=3";
-                    $stmt = $conProyecto->prepare($ConsultaVentas);
+                    where v.id_producto={$filas->id}";
+                    $stmt2 = $conProyecto->prepare($ConsultaVentas);
                     try {
-                        $stmt->execute();
+                         $stmt2->execute();
+                         $controlventas = 0; // variable control de ventas
+                    $controlventas = $stmt2->fetchAll(PDO::FETCH_ASSOC);
+                   // var_dump($controlventas);Control de array para ver los datos que muestra
                     } catch (PDOException $ex) {
-                        cerrarTodo($conProyecto, $stmt);
+                        cerrarTodo($conProyecto, $stmt2);
                         die("Error al recuperar las ventas " . $ex->getMessage());
                     }
+                   
 
-                    $controlventas = 0; // variable control de ventas
-                    if ($controlventas >= 1) {
-                        echo "<textarea>Empleado: Cliente: {$_SESSION['nombre']} Id producto :{$filas->id} </textarea>";
-                    } else {
+                    
+                       
+                    if( empty($controlventas)) {
                         echo " - Sin ventas";
-                    }
+                    }else {echo "<textarea>Empleado: Cliente: {$_SESSION['nombre']} Id producto :{$filas->id} </textarea>";}
                     echo "</td>";
                     echo "<td class='text-center'>";
                     if (isset($_SESSION['cesta'][$filas->id])) {
@@ -114,6 +117,7 @@ if (isset($_POST['comprar'])) {
                     echo "</tr>";
                 }
                 cerrarTodo($conProyecto, $stmt);
+                cerrarTodo($conProyecto, $stmt2);//cerrar consulta ventas
                 ?>
             </tbody>
         </table>
